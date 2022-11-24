@@ -1,10 +1,10 @@
 const { createRouter, createWebHistory } = require('vue-router');
-import CoachesList from './pages/coaches/CoachesList.vue'
-import CoachDetail from './pages/coaches/CoachDetail.vue'
-import CoachRegistration from './pages/coaches/CoachRegistration.vue'
-import ContactCoach from './pages/requests/ContactCoach.vue'
-import RequestsReceive from './pages/requests/RequestsReceive.vue'
-import NotFound from './pages/NotFound.vue'
+import CoachesList from './pages/coaches/CoachesList.vue';
+import CoachDetail from './pages/coaches/CoachDetail.vue';
+import CoachRegistration from './pages/coaches/CoachRegistration.vue';
+import ContactCoach from './pages/requests/ContactCoach.vue';
+import RequestsReceive from './pages/requests/RequestsReceive.vue';
+import NotFound from './pages/NotFound.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -20,6 +20,7 @@ const router = createRouter({
     {
       path: '/coaches/:id',
       component: CoachDetail,
+      props: true,
       children: [
         {
           path: 'contact',
