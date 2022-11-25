@@ -28,11 +28,11 @@ export default {
     },
 
     coachContactLink() {
-      return `${this.$route.path}/${this.id}/contact`;
+      return this.$route.path + '/' + this.id + '/contact';
     },
 
     coachDetailsLink() {
-      return `${this.$route.path}/${this.id}`;
+      return this.$route.path + '/' + this.id;
     },
   },
 };
