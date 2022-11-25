@@ -26,7 +26,11 @@ export default {
     context.commit('registerCoach', { ...coachData, id: userId });
   },
 
-  async loadCoaches(context) {
+  async loadCoaches(context, payload) {
+    if (!payload.forceRefresh && !context.getters.shouldUpdate) {
+      return;
+    }
+
     const res = await fetch(BASEURL + `coaches.json`);
 
     const resData = await res.json();
@@ -51,5 +55,6 @@ export default {
     }
 
     context.commit('setCoaches', coaches);
+    context.commit('setFetchTimestamp');
   },
 };
