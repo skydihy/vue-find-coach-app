@@ -1,8 +1,7 @@
 export default {
   registerCoach(context, data) {
     const coachData = {
-      // TODO: Dynamic id
-      id: 'c3',
+      id: context.rootGetters.userId,
       firstName: data.firstName,
       lastName: data.lastName,
       description: data.description,
