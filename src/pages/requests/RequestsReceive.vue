@@ -1,4 +1,9 @@
 <template>
+  <base-dialog
+    :show="!!error"
+    title="An error occured!"
+    @close="handleCloseDialog"
+  ></base-dialog>
   <section>
     <base-card>
       <header><h2>Requests Received</h2></header>
@@ -20,14 +25,41 @@ import RequestItem from '../../components/requests/RequestItem.vue';
 
 export default {
   components: { RequestItem },
+  data() {
+    return {
+      isLoading: false,
+      error: null,
+    };
+  },
+
+  created() {
+    this.loadRequests();
+  },
+
   computed: {
     receivedRequests() {
-        console.log( this.$store.getters['requests/requests'])
       return this.$store.getters['requests/requests'];
     },
 
     hasRequests() {
-      return this.$store.getters['requests/hasRequests'];
+      return !this.isLoading && this.$store.getters['requests/hasRequests'];
+    },
+  },
+
+  methods: {
+    async loadRequests() {
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch('requests/fetchRequests');
+      } catch (err) {
+        this.error = err.messsage || 'Fetch requests failed';
+      }
+
+      this.isLoading = false;
+    },
+
+    handleCloseDialog() {
+      this.error = null;
     },
   },
 };
