@@ -3,7 +3,7 @@ export default {
     const newRequest = {
       id: new Date().toISOString(),
       coachId: payload.coachId,
-      userEmail: payload.email,
+      userEmail: payload.userEmail,
       message: payload.message,
     };
 
