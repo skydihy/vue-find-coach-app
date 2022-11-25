@@ -1,13 +1,21 @@
 <template>
+  <base-dialog
+    :show="!!error"
+    title="An error occured!"
+    @close="handleCloseDialog"
+  >
+    <p>{{ error }}</p>
+  </base-dialog>
   <section><coach-filter @change-filter="setFilters"></coach-filter></section>
   <section>
     <base-card>
       <div class="controls">
-        <base-button mode="outline">Refresh</base-button>
+        <base-button mode="outline" @click="loadCoaches">Refresh</base-button>
         <base-button v-if="!isCoach" link to="/register"
           >Register as Coache</base-button
         >
       </div>
+      <div v-if="isLoading"><base-spinner></base-spinner></div>
       <ul v-if="hasCoaches">
         <li v-for="coach in filteredCoaches" :key="coach.id">
           <coach-item
@@ -38,7 +46,13 @@ export default {
         backend: true,
         career: true,
       },
+      isLoading: false,
+      error: null,
     };
+  },
+
+  created() {
+    this.loadCoaches();
   },
 
   computed: {
@@ -61,7 +75,7 @@ export default {
     },
 
     hasCoaches() {
-      return this.$store.getters['coaches/hasCoaches'];
+      return !this.isLoading && this.$store.getters['coaches/hasCoaches'];
     },
 
     isCoach() {
@@ -72,6 +86,20 @@ export default {
   methods: {
     setFilters(updatedFilters) {
       this.activeFilters = updatedFilters;
+    },
+
+    async loadCoaches() {
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch('coaches/loadCoaches');
+      } catch (err) {
+        this.error = err.message || 'Something went wrong!';
+      }
+      this.isLoading = false;
+    },
+
+    handleCloseDialog() {
+      this.error = null;
     },
   },
 };
