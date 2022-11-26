@@ -1,4 +1,4 @@
-import { BASEURL } from '../../../constants';
+import { DB_URL } from '../../../constants';
 
 export default {
   async registerCoach(context, data) {
@@ -12,7 +12,7 @@ export default {
       areas: data.areas,
     };
 
-    const res = await fetch(BASEURL + `coaches/${userId}.json`, {
+    const res = await fetch(DB_URL + `coaches/${userId}.json`, {
       method: 'PUT',
       body: JSON.stringify(coachData),
     });
@@ -20,7 +20,7 @@ export default {
     const resData = await res.json();
 
     if (!res.ok) {
-      throw new Error(resData.error || 'Failed to register.');
+      throw new Error(resData.message || 'Failed to register.');
     }
 
     context.commit('registerCoach', { ...coachData, id: userId });
@@ -31,12 +31,12 @@ export default {
       return;
     }
 
-    const res = await fetch(BASEURL + `coaches.json`);
+    const res = await fetch(DB_URL + `coaches.json`);
 
     const resData = await res.json();
 
     if (!res.ok) {
-      throw new Error(resData.error || 'Failed to fetch!');
+      throw new Error(resData.message || 'Failed to fetch!');
     }
 
     const coaches = [];

@@ -1,4 +1,4 @@
-import { BASEURL } from '../../../constants';
+import { DB_URL } from '../../../constants';
 
 export default {
   async contactCoach(context, payload) {
@@ -8,7 +8,7 @@ export default {
       message: payload.message,
     };
 
-    const res = await fetch(BASEURL + `requests/${payload.coachId}.json`, {
+    const res = await fetch(DB_URL + `requests/${payload.coachId}.json`, {
       method: 'POST',
       body: JSON.stringify(newRequest),
     });
@@ -28,12 +28,12 @@ export default {
   async fetchRequests(context) {
     const coachId = context.rootGetters.userId;
 
-    const res = await fetch(BASEURL + `requests/${coachId}.json`);
+    const res = await fetch(DB_URL + `requests/${coachId}.json`);
 
     const resData = await res.json();
 
     if (!res.ok) {
-      throw new Error(resData.error || 'Failed to get requests.');
+      throw new Error(resData.message || 'Failed to get requests.');
     }
 
     const tempRequests = [];
