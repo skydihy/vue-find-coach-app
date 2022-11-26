@@ -4,7 +4,7 @@ export default {
   async registerCoach(context, data) {
     const userId = context.rootGetters.userId;
     const coachData = {
-      id: context.rootGetters.userId,
+      id: userId,
       firstName: data.firstName,
       lastName: data.lastName,
       description: data.description,
@@ -12,7 +12,9 @@ export default {
       areas: data.areas,
     };
 
-    const res = await fetch(DB_URL + `coaches/${userId}.json`, {
+    const token = context.rootGetters.token;
+
+    const res = await fetch(DB_URL + `coaches/${userId}.json?auth=${token}`, {
       method: 'PUT',
       body: JSON.stringify(coachData),
     });
