@@ -3,8 +3,9 @@
 ```bash
 # Base url
 VUE_APP_FIREBASE_DB_URL
+VUE_APP_FIREBASE_AUTH
+VUE_APP_FIREBASE_APIKEY
 ```
-
 
 ## Build Setup
 
@@ -18,5 +19,3 @@ yarn dev
 # build for production with minification
 yarn build
 ```
-
-
