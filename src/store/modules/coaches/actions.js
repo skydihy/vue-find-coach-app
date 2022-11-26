@@ -1,10 +1,10 @@
-import { BASEURL } from '../../../constants';
+import { DB_URL } from '../../../constants';
 
 export default {
   async registerCoach(context, data) {
     const userId = context.rootGetters.userId;
     const coachData = {
-      id: context.rootGetters.userId,
+      id: userId,
       firstName: data.firstName,
       lastName: data.lastName,
       description: data.description,
@@ -12,15 +12,17 @@ export default {
       areas: data.areas,
     };
 
-    const res = await fetch(BASEURL + `coaches/${userId}.json`, {
+    const token = context.rootGetters.token;
+
+    const res = await fetch(DB_URL + `coaches/${userId}.json?auth=${token}`, {
       method: 'PUT',
       body: JSON.stringify(coachData),
     });
 
-    await res.json();
+    const resData = await res.json();
 
     if (!res.ok) {
-      // Error handling
+      throw new Error(resData.message || 'Failed to register.');
     }
 
     context.commit('registerCoach', { ...coachData, id: userId });
@@ -31,7 +33,7 @@ export default {
       return;
     }
 
-    const res = await fetch(BASEURL + `coaches.json`);
+    const res = await fetch(DB_URL + `coaches.json`);
 
     const resData = await res.json();
 
