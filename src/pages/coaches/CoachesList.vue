@@ -21,7 +21,7 @@
             v-if="isAuthenticated && !isCoach && !isLoading"
             link
             to="/register"
-            >Register as Coache</base-button
+            >Register as Coach</base-button
           >
         </div>
         <div v-if="isLoading"><base-spinner></base-spinner></div>
