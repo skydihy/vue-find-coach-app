@@ -24,6 +24,7 @@ export default {
       tokenExpiration: resData.expiresIn,
     });
   },
+
   async signup(context, payload) {
     const url = `${AUTH_URL}:signUp?key=${APIKEY}`;
     const res = await fetch(url, {
@@ -45,6 +46,14 @@ export default {
       token: resData.idToken,
       userId: resData.localId,
       tokenExpiration: resData.expiresIn,
+    });
+  },
+
+  logout(context) {
+    context.commit('setUser', {
+      token: null,
+      userId: null,
+      tokenExpiration: null,
     });
   },
 };

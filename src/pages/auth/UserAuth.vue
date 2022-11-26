@@ -12,7 +12,6 @@
     </base-dialog>
     <form @submit.prevent="submitForm">
       <base-card>
-        {{ isLoading }}
         <div class="form-control">
           <label for="email">E-mail</label>
           <input type="email" id="email" v-model.trim="email" />
@@ -91,6 +90,10 @@ export default {
         } else {
           await this.$store.dispatch('signup', actionPayload);
         }
+
+        const redirectUrl = `/${this.$route.query.redirect || 'coaches'}`;
+
+        this.$router.replace(redirectUrl);
       } catch (err) {
         this.error =
           err.message || 'Failed to authenticate. Check your login data';
