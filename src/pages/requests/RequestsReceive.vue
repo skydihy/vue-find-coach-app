@@ -4,7 +4,8 @@
       :show="!!error"
       title="An error occured!"
       @close="handleCloseDialog"
-    ></base-dialog>
+      ><p>{{ error }}</p></base-dialog
+    >
     <section>
       <base-card>
         <header><h2>Requests Received</h2></header>
@@ -54,7 +55,7 @@ export default {
       try {
         await this.$store.dispatch('requests/fetchRequests');
       } catch (err) {
-        this.error = err.messsage || 'Fetch requests failed';
+        this.error = err.message || 'Fetch requests failed';
       }
 
       this.isLoading = false;
