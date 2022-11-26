@@ -33,7 +33,7 @@ export default {
     const resData = await res.json();
 
     if (!res.ok) {
-      throw new Error(resData.message || 'Failed to get requests.');
+      throw new Error(resData.error || 'Failed to get requests.');
     }
 
     const tempRequests = [];
